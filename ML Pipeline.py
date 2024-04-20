@@ -42,3 +42,14 @@ print('Preparing training and test data...')
 X_train, X_test, y_train, y_test = train_test_split(
     df['message'], df.drop(["message","id"],axis=1), test_size=0.2, random_state=42
 )
+print('--------------------------------------------------------')
+print('Initializing ML pipeline...')
+# Define pipeline
+pipeline = Pipeline([
+    ('tfidf', TfidfVectorizer()),  # Text preprocessing
+    ('clf', MultiOutputClassifier(RandomForestClassifier()))  # Multi-output classifier
+])
+print('--------------------------------------------------------')
+print('Fitting ML pipeline...')
+### 4. Train pipeline
+pipeline.fit(X_train, y_train)
