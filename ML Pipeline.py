@@ -21,8 +21,24 @@ import warnings
 warnings.filterwarnings('ignore')
 # Record the start time
 start_time = time.time()
-print('------------------------------------------------')
+print('--------------------------------------------------------')
 current_directory = os.getcwd()
 print('Directory running from :',current_directory)
-print('------------------------------------------------')
+print('--------------------------------------------------------')
 print("start time :",datetime.datetime.now())
+# load data from database
+#engine = create_engine('sqlite:///InsertDatabaseName.db')
+print('--------------------------------------------------------')
+print('Reading data from the db into training dataframe...')
+conn = sqlite3.connect('etl_disaster_data.db')
+# Read data from SQLite database into a DataFrame
+query = "SELECT * FROM etl_disaster_table"
+df = pd.read_sql_query(query, conn).head(5000)
+# Close the connection
+conn.close()
+print('--------------------------------------------------------')
+print('Preparing training and test data...')
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    df['message'], df.drop(["message","id"],axis=1), test_size=0.2, random_state=42
+)
