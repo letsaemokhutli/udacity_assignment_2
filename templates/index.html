@@ -4,14 +4,16 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>ML-DE</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   </head>
   <body style="background-color: #f0f1f2; margin: 10px;">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: red !important">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: black !important">
         <div class="container-fluid">
           <a class="navbar-brand" href="#" style="color: white; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Assignment 2</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,18 +26,87 @@
         </div>
       </nav>
       <br/>
-      <div class="container" style="background-color: white !important;">
+      <div class="container" style="background-color: red !important; height: 150px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5) !important; flex-direction: column; display: flex;justify-content: center; align-items: center;">
+       <h1 style="color: white; text-align: center; font-size: 32pt;">Distaster response</h>
+       <h3 style="color: white; text-align: center; font-size: 10pt;">Analyze message data for disaster reponse</h3>
+      </div>
+      <form action="/" method="POST">
+      <div class="container" style="background-color: white !important; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5) !important;">
         <div class="row justify-content-center">
           <div class="col-md-6 custom-container">
             <!-- Your content goes here -->
-            <h1>Centered Div</h1>
+            <h3 style="color: red; padding: auto;">Input message</h3>
             <div class="input-group">
-                <textarea class="form-control" aria-label="With textarea" placeholder="Message" style="margin-bottom: 10px;"></textarea>
+                <textarea id="input_data" class="form-control"  name="input_data" aria-label="With textarea" placeholder="Message" style="margin-bottom: 10px;"></textarea>
             </div>
+            <button id="populate-btn" type="submit" style="margin-bottom: 10px; background-color: red !important; border-color: #FF0000; border-width: 0px;;" class="btn btn-dark">Predict categories</button>
           </div>
         </div>
       </div>
+    </form>
+      <div class="container" style="background-color: white; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5)" >
+        <h2 style="margin: 20px; ">{{test}}</h2>
+        <div class="table-responsive">
+          <!-- Add .table class for styling -->
+          <table class="table" style="margin: 20px; background-color: white; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5)">
+            <thead>
+              <tr>
+                <th scope="col">Category 1</th>
+                <th scope="col">Category 2</th>
+                <th scope="col">Category 3</th>
+                <th scope="col">Category 4</th>
+                <th scope="col">Category 5</th>
+                <th scope="col">Category 6</th>
+                <th scope="col">Category 7</th>
+                <th scope="col">Category 8</th>
+                <th scope="col">Category 9</th>
+                <th scope="col">Category 10</th>
+                <th scope="col">Category 11</th>
+                <th scope="col">Category 12</th>
+                <th scope="col">Category 13</th>
+                <th scope="col">Category 14</th>
+                <th scope="col">Category 15</th>
+                <th scope="col">Category 16</th>
+                <th scope="col">Category 17</th>
+                <th scope="col">Category 18</th>
+                <th scope="col">Category 19</th>
+                <th scope="col">Category 20</th>
+                <th scope="col">Category 21</th>
+                <th scope="col">Category 22</th>
+                <th scope="col">Category 23</th>
+                <th scope="col">Category 24</th>
+                <th scope="col">Category 25</th>
+                <th scope="col">Category 26</th>
+                <th scope="col">Category 27</th>
+                <th scope="col">Category 28</th>
+                <th scope="col">Category 29</th>
+                <th scope="col">Category 30</th>
+                <th scope="col">Category 31</th>
+                <th scope="col">Category 32</th>
+                <th scope="col">Category 33</th>
+                <th scope="col">Category 34</th>
+                <th scope="col">Category 35</th>
+                <th scope="col">Category 36</th>
+                <th scope="col">genre_direct</th>
+                <th scope="col">genre_news</th>
+                <th scope="col">genre_social</th>
+                <!-- Add more headers as needed -->
+                <!-- Example: -->
+                <!-- <th scope="col">Header 4</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for item in data %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
+      <div id="plotly-graph"  class="container" style="background-color: white !important; height: 250px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5) !important; display: flex;justify-content: center; align-items: center; margin-top: 30px;"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
