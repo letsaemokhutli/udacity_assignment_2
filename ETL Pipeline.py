@@ -30,6 +30,8 @@ except ValueError as error:
 print('------------------------------------------------')
 print("Perfoming Transform process...")
 try :
+    messages_genre = messages.groupby(['genre']).size().reset_index(name='count')
+    messages_genre.to_csv("genre_count.csv",index=False)
     # merge datasets
     merged_df = pd.merge(messages, categories, on='id', how='left')
     # create a dataframe of the 36 individual category columns

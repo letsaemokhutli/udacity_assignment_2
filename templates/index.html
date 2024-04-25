@@ -106,7 +106,15 @@
         </div>
       </div>
 
-      <div id="plotly-graph"  class="container" style="background-color: white !important; height: 250px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5) !important; display: flex;justify-content: center; align-items: center; margin-top: 30px;"></div>
+      <div id="plotly-graph"  class="container" style="background-color: white !important; height: 450px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5) !important; display: flex;justify-content: center; align-items: center; margin-top: 30px;">
+    <!-- Plotly bar chart -->
+    <div id="genre_bar_chart" style="margin:30px;"></div>
+    <script>
+        var genre_bar_chart_data = {{ genre_bar_chart_json | safe }};
+        Plotly.plot('genre_bar_chart', genre_bar_chart_data);
+    </script>
+
+      </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
