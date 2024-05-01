@@ -71,11 +71,9 @@ f1_scores = [f1_score(y_test[label], y_pred[:, idx], average=None) for idx, labe
 #print("F1 Score for each label:", f1_scores)
 print('-----------------------------------------------------------------------------')
 print("Classification Report:")
-# Assuming y_test and y_pred are your true labels and predicted labels respectively
 # Flatten y_test and y_pred to fit classification_report
 y_test_flat = y_test.values.ravel()
 y_pred_flat = y_pred.ravel()
-# Generate the classification report
 report = classification_report(y_test_flat, y_pred_flat)
 print(report)
 print('-----------------------------------------------------------------------------')
