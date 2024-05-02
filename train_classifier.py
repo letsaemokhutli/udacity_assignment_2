@@ -1,12 +1,11 @@
 # import libraries
-from sklearn.metrics import hamming_loss, jaccard_score, f1_score
+from Classifier_utility import load_data,build_model_RF,build_model_XG_BOOST,train_rf_pipeline,train_xgb_pipeline,rf_pipeline_tuned,xgb_pipeline_tuned,save_model
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from xgboost import XGBClassifier
@@ -22,38 +21,39 @@ import warnings
 warnings.filterwarnings('ignore')
 import sys
 
-
-def load_data(database_filepath):
-    conn = sqlite3.connect(database_filepath)
-    # Read data from SQLite database into a DataFrame
-    query = "SELECT * FROM etl_disaster_table"
-    df = pd.read_sql_query(query, conn).head(5000)
-    # Close the connection
-    conn.close()
-    return df
-
-def build_model():
-    pass
-
-
-def evaluate_model(model, X_test, Y_test):
-    pass
-
-
-def save_model(model, model_filepath):
-    pass
-
-
 def main():
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
-        print('Loading data...\n    DATABASE: {}'.format(database_filepath))
+        print('----------------------------------------------------------------------------------')
+        print('Loading data...\nDATABASE: {}'.format(database_filepath))
         training_data = load_data(database_filepath)
         X_train, X_test, y_train, y_test = train_test_split(
             training_data['message'], training_data.drop(["message","id","categories"],axis=1), test_size=0.2, random_state=42
         )
-        #print('Building model...')
-        #model = build_model()
+        start_time = time.time()
+        print('----------------------------------------------------------------------------------')
+        current_directory = os.getcwd()
+        print('Directory running from :',current_directory)
+        print('----------------------------------------------------------------------------------')
+        print("start time :",datetime.datetime.now())
+        print('----------------------------------------------------------------------------------')
+        rf_ml_pipeline = build_model_RF()
+        xgb_ml_pipeline = build_model_XG_BOOST()
+        train_rf_pipeline(rf_ml_pipeline,X_train, X_test, y_train, y_test)
+        print('----------------------------------------------------------------------------------')
+        train_xgb_pipeline(xgb_ml_pipeline,X_train, X_test, y_train, y_test)
+        print('----------------------------------------------------------------------------------')
+        optimized_rf_pipeline = rf_pipeline_tuned(rf_ml_pipeline,X_train,y_train)
+        optimized_xgb_pipeline = xgb_pipeline_tuned(xgb_ml_pipeline,X_train,y_train)
+        train_rf_pipeline(optimized_rf_pipeline,X_train, X_test, y_train, y_test)
+        train_xgb_pipeline(optimized_xgb_pipeline,X_train, X_test, y_train, y_test)
+        print("Load completed!")
+        print('------------------------------------------------')
+        end_time = time.time()
+        print("end time",datetime.datetime.now())
+        run_time = end_time - start_time
+        print("pipe-line ran for",np.round(run_time/60,2),"minutes")
+        print('------------------------------------------------')
         
         #print('Training model...')
         #model.fit(X_train, Y_train)
@@ -63,6 +63,7 @@ def main():
 
         #print('Saving model...\n    MODEL: {}'.format(model_filepath))
         #save_model(model, model_filepath)
+        save_model(xgb_ml_pipeline,model_filepath)
 
         #print('Trained model saved!')
 

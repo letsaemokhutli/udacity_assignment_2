@@ -248,7 +248,7 @@ print(report)
 print('-----------------------------------------------------------------------------')
 print("Exporting model artifacts:")
 # Serialize the pipeline using pickle
-with open('model.pkl', 'wb') as file:
+with open('final_model.pkl', 'wb') as file:
     pickle.dump(pipeline_v2, file)
 
 
