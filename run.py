@@ -3,7 +3,6 @@ import pickle
 from flask import Flask, render_template, request
 import pandas as pd
 import plotly.graph_objs as go 
-from sklearn.feature_extraction.text import CountVectorizer
 
 app = Flask(__name__)
 
@@ -12,6 +11,7 @@ with open('final_model.pkl', 'rb') as file:
     loaded_model = pickle.load(file)
 
 @app.route("/", methods=['GET', 'POST'])
+
 def home():
     genre_counts = pd.read_csv("genre_count.csv")
     # Create Plotly bar chart
@@ -24,7 +24,7 @@ def home():
     if request.method == 'POST':
         # Get input data from the form  
         input_data = [request.form['input_data']]
-        prediction = list(loaded_model.predict(input_data))  # Assuming your model expects a list of inputs
+        prediction = list(loaded_model.predict(input_data)) 
         prediction = prediction[0].tolist()
         return render_template("go.html", data=prediction,genre_count = genre_counts,genre_bar_chart_json=genre_bar_chart_json)
     else:
