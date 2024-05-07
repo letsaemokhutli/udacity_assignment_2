@@ -9,3 +9,4 @@
 ###### Software engineering came into play when a web app was used to build a Python Flask app.
 
 ## How to run the app
+###### 1. On your terminal run , "python process_data.py messages.csv categories.csv DisasterResponse.db"
