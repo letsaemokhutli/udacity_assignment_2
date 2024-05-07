@@ -9,6 +9,7 @@ import sqlite3
 import os
 import time
 
+#read data from message and categories files then merges them into a dataframe.
 def load_data(messages_filepath, categories_filepath):
     try :
         messages = pd.read_csv(messages_filepath)
@@ -34,6 +35,7 @@ def load_data(messages_filepath, categories_filepath):
         print(error)
     return merged_df
 
+# imputes null values with 0 and drops duplicates
 def clean_data(df):
     try :
         df = df.fillna(0)
@@ -42,6 +44,7 @@ def clean_data(df):
         print(error)
     return df
 
+#saves final merged data to the sqllite db
 def save_data(df, database_filename):
     conn = sqlite3.connect(database_filename)
     df.to_sql(name='Disaster_table', con = conn, if_exists='replace', index=False)

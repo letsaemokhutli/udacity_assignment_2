@@ -54,19 +54,7 @@ def main():
         run_time = end_time - start_time
         print("pipe-line ran for",np.round(run_time/60,2),"minutes")
         print('------------------------------------------------')
-        
-        #print('Training model...')
-        #model.fit(X_train, Y_train)
-        
-        #print('Evaluating model...')
-        #evaluate_model(model, X_test, Y_test, category_names)
-
-        #print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        #save_model(model, model_filepath)
         save_model(xgb_ml_pipeline,model_filepath)
-
-        #print('Trained model saved!')
-
     else:
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\

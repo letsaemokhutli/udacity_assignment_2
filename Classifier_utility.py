@@ -22,7 +22,7 @@ import warnings
 warnings.filterwarnings('ignore')
 import sys
 
-
+# Loads data from db from ETL pipeline to dataframe for cleaning
 def load_data(database_filepath):
     conn = sqlite3.connect(database_filepath)
     query = f"""SELECT * FROM Disaster_table"""
@@ -30,17 +30,14 @@ def load_data(database_filepath):
     conn.close()
     return df
 
-
+#Iniitating ml pipeline using xgboost
 def build_model_XG_BOOST():
     pipeline_v2 = Pipeline([
     ('count_vectorizer', CountVectorizer()),  
     ('clf', MultiOutputClassifier(XGBClassifier()))  
     ])
     return pipeline_v2
-
-def build_model_RF_TUNED():
-    pass
-
+#Iniitating ml pipeline using random forests
 def build_model_RF():
     pipeline = Pipeline([
     ('tfidf', TfidfVectorizer()),  
@@ -48,6 +45,7 @@ def build_model_RF():
     ])
     return pipeline
 
+#training random forests ml pipeline
 def train_rf_pipeline(rf_ml_pipeline,X_train, X_test, y_train, y_test):
         print("Initializing and training random forest, tifidf text porcessor pipeline...")
         print('----------------------------------------------------------------------------------')
@@ -60,6 +58,7 @@ def train_rf_pipeline(rf_ml_pipeline,X_train, X_test, y_train, y_test):
         print('----------------------------------------------------------------------------------')
         print(report)
 
+#training xgboost ml pipeline
 def train_xgb_pipeline(xgb_ml_pipeline,X_train, X_test, y_train, y_test):
         print("Initializing and training xg boost,count vectorizer text porcessor pipeline...")
         print('----------------------------------------------------------------------------------')
@@ -74,6 +73,7 @@ def train_xgb_pipeline(xgb_ml_pipeline,X_train, X_test, y_train, y_test):
         print('----------------------------------------------------------------------------------')
         print(report)
 
+#training tuned xgboost ml pipeline
 def xgb_pipeline_tuned(xgb_ml_pipeline,X_train, y_train):
     print('(XGBClassifier,CountVectorizer) - Tuning model...')
     print('----------------------------------------------------------------------------------')
@@ -95,6 +95,7 @@ def xgb_pipeline_tuned(xgb_ml_pipeline,X_train, y_train):
     ])
     return pipeline_v2
 
+#training tuned random forest ml pipeline
 def rf_pipeline_tuned(rf_ml_pipeline,X_train, y_train):
     print('(Random Forests,tifidf) - Tuning model...')
     print('----------------------------------------------------------------------------------')
@@ -118,6 +119,7 @@ def rf_pipeline_tuned(rf_ml_pipeline,X_train, y_train):
     ])
     return pipeline
 
+#Exporting model artifact as pickle file
 def save_model(model, model_filepath) :
     print('-----------------------------------------------------------------------------')
     print("Exporting model artifacts:")

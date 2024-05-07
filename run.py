@@ -1,3 +1,4 @@
+#importing libaries
 import pickle
 from flask import Flask, render_template, request
 import pandas as pd
@@ -6,15 +7,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 app = Flask(__name__)
 
-# Load the model
-with open('model.pkl', 'rb') as file:
+# Load the model pickle file
+with open('final_model.pkl', 'rb') as file:
     loaded_model = pickle.load(file)
-
-# Define a function for preprocessing input data
-def preprocess_input(data):
-    # Perform any necessary preprocessing here
-    # Example: Tokenization, vectorization, scaling, etc.
-    return data
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -27,15 +22,13 @@ def home():
     genre_bar_chart_json = genre_bar_chart_fig.to_json()
 
     if request.method == 'POST':
-        # Get input data from the form
-        
+        # Get input data from the form  
         input_data = [request.form['input_data']]
         prediction = list(loaded_model.predict(input_data))  # Assuming your model expects a list of inputs
         prediction = prediction[0].tolist()
         return render_template("go.html", data=prediction,genre_count = genre_counts,genre_bar_chart_json=genre_bar_chart_json)
     else:
         return render_template("go.html",genre_count = genre_counts,genre_bar_chart_json=genre_bar_chart_json)
-
 if __name__ == "__main__":
     app.run(debug=True)
 
