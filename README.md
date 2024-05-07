@@ -14,3 +14,4 @@
 ###### 3. On your terminal run python run.py or use an IDE to run the web app
 
 ### Dependencies are on the requirements.txt
+### https://medium.com/@mokhutliletsae/01d5334b8493, project article
