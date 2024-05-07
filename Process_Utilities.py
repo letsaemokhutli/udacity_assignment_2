@@ -36,7 +36,7 @@ def load_data(messages_filepath, categories_filepath):
 
 def clean_data(df):
     try :
-        df = df.fillna()
+        df = df.fillna(0)
         df = df.drop_duplicates()
     except ValueError as error:
         print(error)
