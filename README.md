@@ -12,6 +12,28 @@
 ###### 1. On your terminal run python process_data.py messages.csv categories.csv DisasterResponse.db to run the ETL pipeline
 ###### 2. On your terminal run python train_classifier.py DisasterResponse.db final_model.pkl to run the ML pipeline
 ###### 3. On your terminal run python run.py or use an IDE to run the web app
+###### 4. File structure
+
+udacity_assigment_2
+      |___.git/
+      |___categories.csv
+      |___Classifier_utility.py
+      |___DisasterResponse.db
+      |___final_model.pkl
+      |___genre_count.csv
+      |___interface.js
+      |___interface.py
+      |___messages.csv
+      |___process_data.py
+      |___Process_Utilities.py
+      |___Procfile
+      |___README.md
+      |___requirements.txt
+      |___run.py
+      |___templates/
+      |___train_classifier.py
+      |___venv/
+      |_____pycache__/
 
 ### Dependencies are on the requirements.txt
 ### https://medium.com/@mokhutliletsae/01d5334b8493, project article
