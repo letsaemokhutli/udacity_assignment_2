@@ -32,10 +32,5 @@
             |___requirements.txt
             |___run.py
 
-      |___templates/
-      |___train_classifier.py
-      |___venv/
-      |_____pycache__/
-
 ### Dependencies are on the requirements.txt
 ### https://medium.com/@mokhutliletsae/01d5334b8493, project article
