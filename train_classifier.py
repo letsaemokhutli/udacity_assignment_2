@@ -28,7 +28,7 @@ def main():
         print('Loading data...\nDATABASE: {}'.format(database_filepath))
         training_data = load_data(database_filepath)
         X_train, X_test, y_train, y_test = train_test_split(
-            training_data['message'], training_data.drop(["message","id","categories"],axis=1), test_size=0.2, random_state=42
+            training_data['message'], training_data.drop(["id","message","categories"],axis=1), test_size=0.2, random_state=42
         )
         start_time = time.time()
         print('----------------------------------------------------------------------------------')

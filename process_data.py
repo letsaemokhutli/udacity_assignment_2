@@ -1,6 +1,6 @@
 ## import libraries
 import sys
-from Process_Utilities import load_data,clean_data,save_data
+from Process_Utilities import load_data,clean_data,save_data,tokenize_text
 import warnings
 warnings.filterwarnings('ignore')
 import datetime
@@ -9,6 +9,7 @@ import numpy as np
 import sqlite3
 import os
 import time
+
 
 def main():
     if len(sys.argv) == 4:
@@ -22,6 +23,7 @@ def main():
         print('Extracting data...')
         print('------------------------------------------------')
         df = load_data(messages_filepath, categories_filepath)
+        df.to_csv("test.csv")
         print('Transforming data...')
         print('------------------------------------------------')
         df = clean_data(df)

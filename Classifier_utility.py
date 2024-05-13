@@ -1,44 +1,65 @@
 ## import libraries
-from sklearn.metrics import hamming_loss, jaccard_score, f1_score
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import  classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from xgboost import XGBClassifier
-import nltk
 import pickle
-nltk.download('punkt') 
 import sqlite3
-import numpy as np
-import os
-import datetime
-import time
 import warnings
 warnings.filterwarnings('ignore')
-import sys
 
-# Loads data from db from ETL pipeline to dataframe for cleaning
-def load_data(database_filepath):
+def load_data(database_filepath):  
+    """
+    Load data from a SQLite database into a Pandas DataFrame.
+
+    Parameters:
+    -----------
+    database_filepath : str
+        Filepath to the SQLite database file.
+
+    Returns:
+    --------
+    pandas.DataFrame or None
+        Returns a DataFrame containing the data from the 'Disaster_table' table 
+        in the SQLite database. If an error occurs during data loading, returns None.
+    """
     conn = sqlite3.connect(database_filepath)
     query = f"""SELECT * FROM Disaster_table"""
     df = pd.read_sql_query(query, conn).head(5000)
     conn.close()
     return df
 
-#Iniitating ml pipeline using xgboost
 def build_model_XG_BOOST():
+    """
+    Build a pipeline for multi-output classification using XGBoost.
+
+    Returns:
+    --------
+    sklearn.pipeline.Pipeline
+        Returns a pipeline object configured with CountVectorizer for text 
+        feature extraction and XGBoost classifier for multi-output classification.
+    """
     pipeline_v2 = Pipeline([
     ('count_vectorizer', CountVectorizer()),  
     ('clf', MultiOutputClassifier(XGBClassifier()))  
     ])
     return pipeline_v2
-#Iniitating ml pipeline using random forests
+
 def build_model_RF():
+    """
+    Build a pipeline for multi-output classification using Random Forest.
+
+    Returns:
+    --------
+    sklearn.pipeline.Pipeline
+        Returns a pipeline object configured with TfidfVectorizer for text 
+        feature extraction and RandomForestClassifier for multi-output classification.
+    """
     pipeline = Pipeline([
     ('tfidf', TfidfVectorizer()),  
     ('clf', MultiOutputClassifier(RandomForestClassifier()))  
@@ -47,6 +68,31 @@ def build_model_RF():
 
 #training random forests ml pipeline
 def train_rf_pipeline(rf_ml_pipeline,X_train, X_test, y_train, y_test):
+        """
+        Train a random forest with TF-IDF text processing pipeline and evaluate its performance.
+
+        Parameters:
+        -----------
+        rf_ml_pipeline : sklearn.pipeline.Pipeline
+            Random forest with TF-IDF text processing pipeline.
+
+        X_train : array-like or sparse matrix, shape (n_samples, n_features)
+            Training data.
+
+        X_test : array-like or sparse matrix, shape (n_samples, n_features)
+            Testing data.
+
+        y_train : array-like, shape (n_samples, n_outputs)
+            Multi-output target values for training.
+
+        y_test : array-like, shape (n_samples, n_outputs)
+            Multi-output target values for testing.
+
+        Returns:
+        --------
+        None
+            This function prints the performance report of the trained pipeline.
+        """
         print("Initializing and training random forest, tifidf text porcessor pipeline...")
         print('----------------------------------------------------------------------------------')
         rf_ml_pipeline.fit(X_train, y_train)
@@ -58,8 +104,32 @@ def train_rf_pipeline(rf_ml_pipeline,X_train, X_test, y_train, y_test):
         print('----------------------------------------------------------------------------------')
         print(report)
 
-#training xgboost ml pipeline
 def train_xgb_pipeline(xgb_ml_pipeline,X_train, X_test, y_train, y_test):
+        """
+        Train an XGBoost with count vectorizer text processing pipeline and evaluate its performance.
+
+        Parameters:
+        -----------
+        xgb_ml_pipeline : sklearn.pipeline.Pipeline
+            XGBoost with count vectorizer text processing pipeline.
+
+        X_train : array-like or sparse matrix, shape (n_samples, n_features)
+            Training data.
+
+        X_test : array-like or sparse matrix, shape (n_samples, n_features)
+            Testing data.
+
+        y_train : array-like, shape (n_samples, n_outputs)
+            Multi-output target values for training.
+
+        y_test : array-like, shape (n_samples, n_outputs)
+            Multi-output target values for testing.
+
+        Returns:
+        --------
+        None
+            This function prints the performance report of the trained pipeline.
+        """
         print("Initializing and training xg boost,count vectorizer text porcessor pipeline...")
         print('----------------------------------------------------------------------------------')
         min_label = y_train.min()
@@ -73,8 +143,26 @@ def train_xgb_pipeline(xgb_ml_pipeline,X_train, X_test, y_train, y_test):
         print('----------------------------------------------------------------------------------')
         print(report)
 
-#training tuned xgboost ml pipeline
 def xgb_pipeline_tuned(xgb_ml_pipeline,X_train, y_train):
+    """
+    Tune hyperparameters of an XGBoost with count vectorizer text processing pipeline.
+
+    Parameters:
+    -----------
+    xgb_ml_pipeline : sklearn.pipeline.Pipeline
+        XGBoost with count vectorizer text processing pipeline.
+
+    X_train : array-like or sparse matrix, shape (n_samples, n_features)
+        Training data.
+
+    y_train : array-like, shape (n_samples, n_outputs)
+        Multi-output target values for training.
+
+    Returns:
+    --------
+    sklearn.pipeline.Pipeline
+        Returns a tuned pipeline object with optimized hyperparameters.
+    """
     print('(XGBClassifier,CountVectorizer) - Tuning model...')
     print('----------------------------------------------------------------------------------')
     min_label = y_train.min()
@@ -95,8 +183,26 @@ def xgb_pipeline_tuned(xgb_ml_pipeline,X_train, y_train):
     ])
     return pipeline_v2
 
-#training tuned random forest ml pipeline
 def rf_pipeline_tuned(rf_ml_pipeline,X_train, y_train):
+    """
+    Tune hyperparameters of a random forest with TF-IDF text processing pipeline.
+
+    Parameters:
+    -----------
+    rf_ml_pipeline : sklearn.pipeline.Pipeline
+        Random forest with TF-IDF text processing pipeline.
+
+    X_train : array-like or sparse matrix, shape (n_samples, n_features)
+        Training data.
+
+    y_train : array-like, shape (n_samples, n_outputs)
+        Multi-output target values for training.
+
+    Returns:
+    --------
+    sklearn.pipeline.Pipeline
+        Returns a tuned pipeline object with optimized hyperparameters.
+    """
     print('(Random Forests,tifidf) - Tuning model...')
     print('----------------------------------------------------------------------------------')
     param_grid = {
@@ -119,8 +225,23 @@ def rf_pipeline_tuned(rf_ml_pipeline,X_train, y_train):
     ])
     return pipeline
 
-#Exporting model artifact as pickle file
 def save_model(model, model_filepath) :
+    """
+    Save a trained model to a file using pickle.
+
+    Parameters:
+    -----------
+    model : object
+        Trained model object to be saved.
+
+    model_filepath : str
+        Filepath where the model will be saved.
+
+    Returns:
+    --------
+    None
+        This function saves the model to the specified filepath.
+    """
     print('-----------------------------------------------------------------------------')
     print("Exporting model artifacts:")
     print(model_filepath)
