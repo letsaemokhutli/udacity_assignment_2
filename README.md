@@ -15,23 +15,22 @@
 ###### 3. On your terminal run python run.py or use an IDE to run the web app
 ###### 4. File structure
 
- udacity_assigment_2
- |_____
-      |___.git/
-      |___categories.csv
-      |___Classifier_utility.py
-      |___DisasterResponse.db
-      |___final_model.pkl
-      |___genre_count.csv
-      |___interface.js
-      |___interface.py
-      |___messages.csv
-      |___process_data.py
-      |___Process_Utilities.py
-      |___Procfile
-      |___README.md
-      |___requirements.txt
-      |___run.py
+      udacity_assigment_2
+            |___.git/
+            |___categories.csv
+            |___Classifier_utility.py
+            |___DisasterResponse.db
+            |___final_model.pkl
+            |___genre_count.csv
+            |___interface.js
+            |___interface.py
+            |___messages.csv
+            |___process_data.py
+            |___Process_Utilities.py
+            |___Procfile
+            |___README.md
+            |___requirements.txt
+            |___run.py
 
       |___templates/
       |___train_classifier.py
