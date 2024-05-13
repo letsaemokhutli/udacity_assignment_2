@@ -24,13 +24,14 @@
 ######       |___genre_count.csv
 ######       |___interface.js
 ######       |___interface.py
-######       |___messages.csv
-######       |___process_data.py
-######       |___Process_Utilities.py
-######       |___Procfile
-######       |___README.md
-######       |___requirements.txt
-######       |___run.py
+      |___messages.csv
+      |___process_data.py
+      |___Process_Utilities.py
+      |___Procfile
+      |___README.md
+      |___requirements.txt
+      |___run.py
+
       |___templates/
       |___train_classifier.py
       |___venv/
